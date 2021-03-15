@@ -22,11 +22,7 @@ namespace DiscGolf.Models
                     UserID = 1,
                     Name = "Thomas Mahr",
                     Username = "ThomasMahr",
-                    Password = "pass",
-                    GamesPlayed = 0,
-                    GamesWon = 0,
-                    AverageScore = 0,
-                    BestScore = 0
+                    Password = "pass"
                 }
             );
         }
