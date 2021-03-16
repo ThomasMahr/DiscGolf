@@ -7,15 +7,15 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="Name">Name: </label>
-        <input asp-for="Name" class="form-control">
+        <input asp-for="Name" class="form-control col-sm-4" />
     </div>
     <div class="form-group">
         <label asp-for="Username">Username: </label>
-        <input asp-for="Username" class="form-control">
+        <input asp-for="Username" class="form-control col-sm-4" />
     </div>
     <div class="form-group">
         <label asp-for="Password">Password: </label>
-        <input asp-for="Password" class="form-control">
+        <input asp-for="Password" class="form-control col-sm-4" />
     </div>
     <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
     <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>
