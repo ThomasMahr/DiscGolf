@@ -22,12 +22,12 @@ namespace DiscGolf.Areas.Controllers
             return View();
         }
 
-        public IActionResult UserList()
+        public IActionResult PlayerList()
         {
-            var users = context.Users
+            var players = context.Players
                 .OrderBy(m => m.Name)
                 .ToList();
-            return View(users);
+            return View(players);
         }
         public IActionResult CourseList()
         {
@@ -38,17 +38,17 @@ namespace DiscGolf.Areas.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeletePlayer(int id)
         {
-            var user = context.Users.Find(id);
-            return View(user);
+            var player = context.Players.Find(id);
+            return View(player);
         }
         [HttpPost]
-        public  IActionResult DeleteUser(User user)
+        public  IActionResult DeletePlayer(Player p)
         {
-            context.Users.Remove(user);
+            context.Players.Remove(p);
             context.SaveChanges();
-            return RedirectToAction("UserList", "Home");
+            return RedirectToAction("PlayerList", "Home");
         }
 
         [HttpGet]

@@ -1,8 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "User List";
+    ViewData["Title"] = "Player List";
 }
 
-<h2>User List</h2>
+<h2>Player List</h2>
 <!--Should the admin just be able to add a user?-->
 <!--Should the admin be able to change user passwords?-->
 <table class="table table-bordered table-striped">
@@ -10,16 +10,16 @@
         <tr><th>Name</th><th>Username</th><th>Password</th><th></th></tr>
     </thead>
     <tbody>
-        @foreach (var user in Model)
+        @foreach (var player in Model)
         {
             <tr>
-                <td>@user.Name</td>
-                <td>@user.Username</td>
-                <td>@user.Password</td>
+                <td>@player.Name</td>
+                <td>@player.Username</td>
+                <td>@player.Password</td>
                 <td>
-                    <a asp-controller="Home" asp-action="DeleteUser"
-                       asp-route-id="@user.UserID"
-                       asp-route-slug="@user.Slug">Delete</a>
+                    <a asp-controller="Home" asp-action="DeletePlayer"
+                       asp-route-id="@player.PlayerID"
+                       asp-route-slug="@player.Slug">Delete</a>
                 </td>
             </tr>
         }

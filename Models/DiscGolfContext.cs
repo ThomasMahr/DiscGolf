@@ -12,15 +12,15 @@ namespace DiscGolf.Models
             : base(options)
         { }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Player> Players { get; set; }
         public DbSet<Course> Courses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(
-                new User
+            modelBuilder.Entity<Player>().HasData(
+                new Player
                 {
-                    UserID = 1,
+                    PlayerID = 1,
                     Name = "Thomas Mahr",
                     Username = "ThomasMahr",
                     Password = "pass"

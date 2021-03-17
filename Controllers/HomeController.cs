@@ -29,21 +29,21 @@ namespace DiscGolf.Controllers
         public IActionResult Login()
         {
             ViewBag.Action = "Login";
-            return View("Login", new User());
+            return View("Login", new Player());
         }
 
         [HttpPost]
-        public IActionResult Login(User user)
+        public IActionResult Login(Player player)
         {
-            var users = context.Users
+            var players= context.Players
                 .ToList();
-            foreach (User u in users)
+            foreach (Player p in players)
             {
-                if (user.Username == u.Username)
+                if (player.Username == p.Username)
                 {
-                    if (user.Password == u.Password)
+                    if (player.Password == p.Password)
                     {
-                        return View("../User/Index", u);
+                        return View("../Player/Index", p);
                     }
                 }
             }
@@ -54,16 +54,16 @@ namespace DiscGolf.Controllers
         public IActionResult Register()
         {
             ViewBag.Action = "Add";
-            return View("Register", new User());
+            return View("Register", new Player());
         }
 
         [HttpPost]
-        public IActionResult Register(User user)
+        public IActionResult Register(Player player)
         {
             if (ModelState.IsValid)
             {
-                if (user.UserID == 0)
-                    context.Users.Add(user);
+                if (player.PlayerID == 0)
+                    context.Players.Add(player);
                 context.SaveChanges();
                 return RedirectToAction("Login", "Home");
             }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiscGolf.Controllers
 {
-    public class UserController : Controller
+    public class PlayerController : Controller
     {
         public IActionResult Index()
         {
