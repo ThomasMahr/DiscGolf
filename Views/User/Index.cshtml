@@ -1,4 +1,11 @@
-﻿<div class="text-center">
-    <p>Hello User</p>
+﻿@model User
+@{ 
+    
+} 
+<div class="text-center">
+    <p>UserID: @Model.UserID</p>
+    <p>Name: @Model.Name</p>
+    <p>Username: @Model.Username</p>
+    <p>Userpassword: @Model.Password</p>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Home</a>
 </div>

@@ -20,13 +20,34 @@ namespace DiscGolf.Controllers
         {
             return View();
         }
-        public IActionResult Login()
-        {
-            return View();
-        }
         public IActionResult Info()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            ViewBag.Action = "Login";
+            return View("Login", new User());
+        }
+
+        [HttpPost]
+        public IActionResult Login(User user)
+        {
+            var users = context.Users
+                .ToList();
+            foreach (User u in users)
+            {
+                if (user.Username == u.Username)
+                {
+                    if (user.Password == u.Password)
+                    {
+                        return View("../User/Index", u);
+                    }
+                }
+            }
+            return View("Index");
         }
 
         [HttpGet]
