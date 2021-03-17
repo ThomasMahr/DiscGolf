@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscGolf.Migrations
 {
     [DbContext(typeof(DiscGolfContext))]
-    [Migration("20210315184828_UpdatedUser")]
-    partial class UpdatedUser
+    [Migration("20210316203942_DatabaseNameChange")]
+    partial class DatabaseNameChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,7 @@ namespace DiscGolf.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")

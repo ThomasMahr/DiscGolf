@@ -26,7 +26,7 @@ namespace DiscGolf
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UserContext")));
+            services.AddDbContext<DiscGolfContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UserContext")));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -53,11 +53,11 @@ namespace DiscGolf
                 endpoints.MapAreaControllerRoute(
                     name: "admin",
                     areaName: "Admin",
-                    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+                    pattern: "Admin/{controller=Home}/{action=Index}/{id?}/{slug?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}/{slug?}");
             });
         }
     }

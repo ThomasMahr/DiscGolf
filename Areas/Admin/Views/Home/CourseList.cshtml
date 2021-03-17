@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Course List";
+}
+
+<h2>Course List</h2>
+<a asp-controller="Home" asp-action="AddCourse" class="btn btn-primary">Add New Course</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th><th>CourseName</th><th>Number of Holes</th><th>Course Par</th>
+            @for (int i = 0; i < 9; i++)
+            {
+                <th>Hole @(i+1)</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Home" asp-action="DeleteCourse"
+                       asp-route-id="@course.CourseID"
+                       asp-route-slug="@course.Slug">Delete</a>
+                </td>
+                <td>@course.CourseName</td>
+                <td>@course.NumberOfHoles</td>
+                <td>@course.CoursePar</td>
+                @{course.HolePar.Substring(0, 1);}
+                    @{string[] pars = course.HolePar.Split('-');}
+                    @foreach (var par in pars)
+                    {
+                        <td>@par</td>
+                    }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="Admin" asp-controller="Home" asp-action="index" class="btn btn-primary">Admin Home</a>

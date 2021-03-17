@@ -9,9 +9,9 @@ namespace DiscGolf.Controllers
 {
     public class HomeController : Controller
     {
-        private UserContext context { get; set; }
+        private DiscGolfContext context { get; set; }
 
-        public HomeController(UserContext ctx)
+        public HomeController(DiscGolfContext ctx)
         {
             context = ctx;
         }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DiscGolf.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(DiscGolfContext))]
     [Migration("20210301012315_Initial")]
     partial class Initial
     {

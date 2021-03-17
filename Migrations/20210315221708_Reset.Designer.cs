@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DiscGolf.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(DiscGolfContext))]
     [Migration("20210315221708_Reset")]
     partial class Reset
     {

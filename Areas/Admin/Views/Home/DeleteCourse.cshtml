@@ -1,0 +1,14 @@
+﻿@model Course
+@{
+
+}
+
+<h2>Confirm Deletion</h2>
+<h3>@Model.CourseName</h3>
+
+<form asp-action="DeleteCourse" method="post">
+    <input type="hidden" asp-for="CourseID" />
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-controller="Home" asp-action="CourseList" class="btn btn-primary">Cancel</a>
+</form>

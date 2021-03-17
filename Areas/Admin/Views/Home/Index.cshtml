@@ -2,27 +2,7 @@
     ViewData["Title"] = "Admin Page";
 }
 
-<!--Add Course List here too at some point-->
-<h2>Course List</h2>
+<a asp-controller="Home" asp-action="UserList" class="btn btn-primary">View Users</a>
+<a asp-controller="Home" asp-action="CourseList" class="btn btn-primary">View Courses</a>
 
-<h2>User List</h2>
-<!--Should the admin just be able to add a user?-->
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr><th>Name</th><th>Username</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.Name</td>
-                <td>@user.Username</td>
-                <td>
-                    <a asp-controller="Home" asp-action="Delete"
-                       asp-route-id="@user.UserID"
-                       asp-route-slug="@user.Slug">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<a asp-area="Default" asp-controller="Home" asp-action="index" class="btn btn-primary">Default Home</a>
