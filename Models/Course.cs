@@ -29,9 +29,10 @@ namespace DiscGolf.Models
 /*
  * Can't store a list as a list of ints to the databse table
  * I can store primitive data types
- * Need a list to hold the par for each hole
+ * Need a list to hold the par for each holea
  * Can create a string that holds par for each hole
  *      and save that string to the databse
  * Will just need to split the string up when
  *      working with the course
+ * 3-3-3-3-2-4-3-4-3
  */
