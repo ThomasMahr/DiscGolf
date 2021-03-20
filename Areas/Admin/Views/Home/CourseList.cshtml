@@ -7,11 +7,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th></th><th>CourseName</th><th>Number of Holes</th><th>Course Par</th>
-            @for (int i = 0; i < 9; i++)
-            {
-                <th>Hole @(i+1)</th>
-            }
+            <th></th><th>CourseID</th><th>CourseName</th><th>Number of Holes</th><th>Course Par</th>
         </tr>
     </thead>
     <tbody>
@@ -23,15 +19,9 @@
                        asp-route-id="@course.CourseID"
                        asp-route-slug="@course.Slug">Delete</a>
                 </td>
+                <td>@course.CourseID</td>
                 <td>@course.CourseName</td>
-                <td>@course.NumberOfHoles</td>
-                <td>@course.CoursePar</td>
-                @{course.HolePar.Substring(0, 1);}
-                    @{string[] pars = course.HolePar.Split('-');}
-                    @foreach (var par in pars)
-                    {
-                        <td>@par</td>
-                    }
+                <td>@course.Holes</td>
             </tr>
         }
     </tbody>

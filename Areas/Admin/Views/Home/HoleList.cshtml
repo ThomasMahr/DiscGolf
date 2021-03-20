@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Hole List";
+}
+
+<h2>Hole List</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr><th>CourseName</th><th>HoleID</th><th>Par</th><th>Distance (ft)</th><th>Sequence Number</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var hole in Model)
+        {
+            <tr>
+                <td>@hole.CourseID</td>
+                <td>@hole.HoleID</td>
+                <td>@hole.Par</td>
+                <td>@hole.Distance</td>
+                <td>@hole.SequenceNumber</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="Admin" asp-controller="Home" asp-action="index" class="btn btn-primary">Admin Home</a>

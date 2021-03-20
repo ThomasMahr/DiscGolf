@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DiscGolf.Models
@@ -15,6 +15,8 @@ namespace DiscGolf.Models
 
         [Required(ErrorMessage = "Please enter your password.")]
         public string Password { get; set; }
+
+        public ICollection<GamePlayed> GamesPlayed { get; set; }
 
         public string Slug =>
             Name?.Replace(' ', '-').ToLower();

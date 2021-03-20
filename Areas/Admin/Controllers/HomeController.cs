@@ -36,6 +36,20 @@ namespace DiscGolf.Areas.Controllers
                 .ToList();
             return View(courses);
         }
+        public IActionResult HoleList()
+        {
+            var holes = context.Holes
+                .OrderBy(m => m.CourseID)
+                .ToList();
+            return View(holes);
+        }
+        public IActionResult GamePlayedList()
+        {
+            var games = context.GamesPlayed
+                .OrderBy(m => m.PlayerID)
+                .ToList();
+            return View(games);
+        }
 
         [HttpGet]
         public IActionResult DeletePlayer(int id)

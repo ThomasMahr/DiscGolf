@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Game List";
+}
+
+<h2>Game List</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr><th>PlayerID</th><th>CourseID</th><th>Score</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model)
+        {
+            <tr>
+                <td>@game.PlayerID</td>
+                <td>@game.CourseID</td>
+                <td>@game.Score</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="Admin" asp-controller="Home" asp-action="index" class="btn btn-primary">Admin Home</a>
