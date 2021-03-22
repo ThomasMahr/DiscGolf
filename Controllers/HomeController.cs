@@ -43,6 +43,27 @@ namespace DiscGolf.Controllers
                 {
                     if (player.Password == p.Password)
                     {
+                        List<GamePlayed> playerGames = new List<GamePlayed>();
+                        List<Course> allCourses = new List<Course>();
+                        var games = context.GamesPlayed
+                            .OrderBy(m => m.CourseID)
+                            .ToList();
+                        var courses = context.Courses
+                            .OrderBy(m => m.CourseID)
+                            .ToList();
+                        foreach (Course c in courses)
+                        {
+                            allCourses.Add(c);
+                        }
+                        foreach (GamePlayed game in games)
+                        {
+                            if (game.PlayerID == p.PlayerID)
+                            {
+                                playerGames.Add(game);
+                            }
+                        }
+                        ViewData["Games"] = playerGames;
+                        ViewData["Courses"] = allCourses;
                         return View("../Player/Index", p);
                     }
                 }

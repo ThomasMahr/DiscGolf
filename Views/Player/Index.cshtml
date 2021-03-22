@@ -1,11 +1,34 @@
 ﻿@model Player
-@{ 
-    
-} 
-<div class="text-center">
-    <p>UserID: @Model.PlayerID</p>
-    <p>Name: @Model.Name</p>
-    <p>Username: @Model.Username</p>
-    <p>Password: @Model.Password</p>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Home</a>
-</div>
+@{
+    List<GamePlayed> playerGames = ViewData["Games"] as List<GamePlayed>;
+    List<Course> courses = ViewData["Courses"] as List<Course>;
+}
+
+<h1>Hello @Model.Name</h1>
+<!--Add a game highlights section to show best score, average score, etc. for each course-->
+
+<h2>Player's Games</h2>
+<!--For each game, also list the scores on each hole with par for hole-->
+<!--Also list par for the course as an overview-->
+@foreach (Course c in courses)
+{
+    <h2>@c.CourseName</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr><th>Score</th></tr>
+        </thead>
+        <tbody>
+            @foreach (GamePlayed gp in playerGames)
+            {
+                @if (gp.CourseID == c.CourseID)
+                {
+                    <tr>
+                        <td>@gp.Score</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Home</a>
