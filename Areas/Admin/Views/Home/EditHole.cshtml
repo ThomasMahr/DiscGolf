@@ -1,0 +1,30 @@
+﻿@model Hole
+@{
+    ViewData["Title"] = "Edit Hole";
+}
+
+<form asp-action="EditHole" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Course"></label>
+        <select asp-for="CourseID" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Courses, "CourseID", "CourseName"))"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="SequenceNumber">Sequence Number: </label>
+        <input asp-for="SequenceNumber" class="form-control col-sm-4" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Par">Par: </label>
+        <input asp-for="Par" class="form-control col-sm-4" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Distance">Distance (in ft): </label>
+        <input asp-for="Distance" class="form-control col-sm-4" />
+    </div>
+
+    <input type="hidden" asp-for="HoleID" />
+
+    <button type="submit" class="btn btn-primary">Commit Changes</button>
+    <a asp-controller="Home" asp-action="CourseList" class="btn btn-primary">Cancel</a>
+</form>

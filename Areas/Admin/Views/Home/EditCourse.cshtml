@@ -1,0 +1,45 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "Edit Course";
+}
+
+<h2>@Model.CourseName</h2>
+
+<form asp-action="EditCourse" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="CourseName">Name: </label>
+        <input asp-for="CourseName" class="form-control col-sm-4" />
+    </div>
+
+    <input type="hidden" asp-for="CourseID" />
+
+    <h2>Hole List</h2>
+    <a asp-controller="Home" asp-action="AddHole" class="btn btn-primary">Add New Hole</a>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr><th>Sequence Number</th><th>Par</th><th>Distance (ft)</th><th>Edit</th><th>Delete</th></tr>
+        </thead>
+        <tbody>
+            @foreach (Hole hole in ViewBag.Holes)
+            {
+                <tr>
+                    <td>@hole.SequenceNumber</td>
+                    <td>@hole.Par</td>
+                    <td>@hole.Distance</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="EditHole"
+                           asp-route-id="@hole.HoleID">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Home" asp-action="DeleteHole"
+                           asp-route-id="@hole.HoleID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Commit Changes</button>
+    <a asp-controller="Home" asp-action="CourseList" class="btn btn-secondary">Cancel</a>
+</form>

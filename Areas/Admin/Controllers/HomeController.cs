@@ -112,6 +112,26 @@ namespace DiscGolf.Areas.Controllers
         }
 
         [HttpGet]
+        public IActionResult EditCourse(int id)
+        {
+            ViewBag.Holes = data.Holes.List(new QueryOptions<Hole>
+            {
+                Includes = "Course",
+                Where = h => h.CourseID == id,
+                OrderBy = h => h.SequenceNumber
+            });
+            return View(data.Courses.Get(id));
+        }
+        [HttpPost]
+        public RedirectToActionResult EditCourse(Course c)
+        {
+            data.Courses.Update(c);
+            data.Courses.Save();
+            return RedirectToAction("CourseList");
+        }
+
+
+        [HttpGet]
         public IActionResult DeleteHole(int id)
         {
             ViewBag.Courses = data.Courses.List(new QueryOptions<Course>{});
@@ -122,7 +142,7 @@ namespace DiscGolf.Areas.Controllers
         {
             data.Holes.Delete(h);
             data.Holes.Save();
-            return RedirectToAction("HoleList");
+            return RedirectToAction("CourseList");
         }
 
         [HttpGet]
@@ -139,7 +159,21 @@ namespace DiscGolf.Areas.Controllers
         {
             data.Holes.Insert(hole);
             data.Holes.Save();
-            return RedirectToAction("HoleList");
+            return RedirectToAction("CourseList");
+        }
+
+        [HttpGet]
+        public IActionResult EditHole(int id)
+        {
+            ViewBag.Courses = data.Courses.List(new QueryOptions<Course> { });
+            return View(data.Holes.Get(id));
+        }
+        [HttpPost]
+        public RedirectToActionResult EditHole(Hole h)
+        {
+            data.Holes.Update(h);
+            data.Holes.Save();
+            return RedirectToAction("CourseList");
         }
     }
 }

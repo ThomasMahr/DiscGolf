@@ -4,10 +4,9 @@
 }
 
 <h2>Hole List</h2>
-<a asp-controller="Home" asp-action="AddHole" class="btn btn-primary">Add New Hole</a>
 <table class="table table-bordered table-striped">
     <thead>
-        <tr><th>CourseName</th><th>Sequence Number</th><th>Par</th><th>Distance (ft)</th><th></th></tr>
+        <tr><th>CourseName</th><th>Sequence Number</th><th>Par</th><th>Distance (ft)</th></tr>
     </thead>
     <tbody>
         @foreach (Hole hole in Model)
@@ -17,10 +16,6 @@
                 <td>@hole.SequenceNumber</td>
                 <td>@hole.Par</td>
                 <td>@hole.Distance</td>
-                <td>
-                    <a asp-controller="Home" asp-action="DeleteHole"
-                       asp-route-id="@hole.HoleID">Delete</a>
-                </td>
             </tr>
         }
     </tbody>
