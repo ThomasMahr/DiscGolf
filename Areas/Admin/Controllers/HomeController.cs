@@ -73,6 +73,19 @@ namespace DiscGolf.Areas.Controllers
         }
 
         [HttpGet]
+        public IActionResult EditPlayer(int id)
+        {
+            return View(data.Players.Get(id));
+        }
+        [HttpPost]
+        public RedirectToActionResult EditPlayer(Player p)
+        {
+            data.Players.Update(p);
+            data.Players.Save();
+            return RedirectToAction("PlayerList");
+        }
+
+        [HttpGet]
         public IActionResult DeleteCourse(int id)
         {
             return View(data.Courses.Get(id));
