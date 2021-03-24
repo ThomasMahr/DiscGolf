@@ -64,7 +64,8 @@ namespace DiscGolf.Controllers
                         }
                         ViewData["Games"] = playerGames;
                         ViewData["Courses"] = allCourses;
-                        return View("../Player/Index", p);
+                        ViewData["Player"] = p;
+                        return View("../Player/Index");
                     }
                 }
             }

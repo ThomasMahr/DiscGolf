@@ -2,9 +2,10 @@
 @{
     List<GamePlayed> playerGames = ViewData["Games"] as List<GamePlayed>;
     List<Course> courses = ViewData["Courses"] as List<Course>;
+    Player p = ViewData["Player"] as Player;
 }
 
-<h1>Hello @Model.Name</h1>
+<h1>Hello @p.Name</h1>
 <!--Add a game highlights section to show best score, average score, etc. for each course-->
 
 <h2>Player's Games</h2>

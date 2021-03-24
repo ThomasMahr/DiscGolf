@@ -1,0 +1,19 @@
+﻿@model Hole
+@{ 
+    var courseNameToUse = "";
+    foreach (Course c in ViewBag.Courses)
+    {
+        if (c.CourseID == Model.CourseID)
+            courseNameToUse = c.CourseName;
+    }
+}
+
+<h2>Confirm Deletion</h2>
+<h3>Hole: @Model.SequenceNumber [@courseNameToUse]</h3>
+
+<form asp-action="DeleteHole" method="post">
+    <input type="hidden" asp-for="HoleID" />
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-controller="Home" asp-action="HoleList" class="btn btn-primary">Cancel</a>
+</form>
