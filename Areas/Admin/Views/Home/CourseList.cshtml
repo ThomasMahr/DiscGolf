@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Course>
+@{
     ViewData["Title"] = "Course List";
 }
 
@@ -6,22 +7,31 @@
 <a asp-controller="Home" asp-action="AddCourse" class="btn btn-primary">Add New Course</a>
 <table class="table table-bordered table-striped">
     <thead>
-        <tr>
-            <th></th><th>CourseID</th><th>CourseName</th><th>Number of Holes</th><th>Course Par</th>
-        </tr>
+        <tr><th></th><th>CourseName</th><th>Number of Holes</th><th>Course Par</th></tr>
     </thead>
     <tbody>
         @foreach (Course course in Model)
         {
+            int? coursePar = 0;
+            var holeCount = 0;
             <tr>
                 <td>
                     <a asp-controller="Home" asp-action="DeleteCourse"
                        asp-route-id="@course.CourseID"
                        asp-route-slug="@course.Slug">Delete</a>
                 </td>
-                <td>@course.CourseID</td>
                 <td>@course.CourseName</td>
-                <td>@course.Holes</td>
+                @{ foreach (Hole h in ViewBag.Holes)
+                    {
+                        if(h.Course.CourseID == course.CourseID)
+                        {
+                            coursePar += h.Par;
+                            holeCount++;
+                        }
+                    }
+                }
+                <td>@holeCount</td>
+                <td>@coursePar</td>
             </tr>
         }
     </tbody>

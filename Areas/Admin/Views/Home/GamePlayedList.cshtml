@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<GamePlayed>
+@{
     ViewData["Title"] = "Game List";
 }
 
@@ -6,14 +7,14 @@
 
 <table class="table table-bordered table-striped">
     <thead>
-        <tr><th>PlayerID</th><th>CourseID</th><th>Score</th></tr>
+        <tr><th>PlayerName</th><th>CourseName</th><th>Score</th></tr>
     </thead>
     <tbody>
-        @foreach (var game in Model)
+        @foreach (GamePlayed game in Model)
         {
             <tr>
-                <td>@game.PlayerID</td>
-                <td>@game.CourseID</td>
+                <td>@game.Player.Name</td>
+                <td>@game.Course.CourseName</td>
                 <td>@game.Score</td>
             </tr>
         }

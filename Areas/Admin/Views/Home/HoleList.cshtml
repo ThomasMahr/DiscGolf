@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Hole>
+@{
     ViewData["Title"] = "Hole List";
 }
 
@@ -6,17 +7,16 @@
 
 <table class="table table-bordered table-striped">
     <thead>
-        <tr><th>CourseName</th><th>HoleID</th><th>Par</th><th>Distance (ft)</th><th>Sequence Number</th></tr>
+        <tr><th>CourseName</th><th>Sequence Number</th><th>Par</th><th>Distance (ft)</th></tr>
     </thead>
     <tbody>
         @foreach (Hole hole in Model)
         {
             <tr>
-                <td>@hole.CourseID</td>
-                <td>@hole.HoleID</td>
+                <td>@hole.Course.CourseName</td>
+                <td>@hole.SequenceNumber</td>
                 <td>@hole.Par</td>
                 <td>@hole.Distance</td>
-                <td>@hole.SequenceNumber</td>
             </tr>
         }
     </tbody>

@@ -10,12 +10,8 @@ namespace DiscGolf.Areas.Controllers
     [Area("Admin")]
     public class HomeController : Controller
     {
-        private DiscGolfContext context { get; set; }
-
-        public HomeController(DiscGolfContext ctx)
-        {
-            context = ctx;
-        }
+        private GamesPlayedUnitOfWork data { get; set; }
+        public HomeController(DiscGolfContext ctx) => data = new GamesPlayedUnitOfWork(ctx);
 
         public IActionResult Index()
         {
@@ -24,81 +20,81 @@ namespace DiscGolf.Areas.Controllers
 
         public IActionResult PlayerList()
         {
-            var players = context.Players
-                .OrderBy(m => m.Name)
-                .ToList();
-            return View(players);
+            var playerOptions = new QueryOptions<Player>
+            {
+                OrderBy = d => d.Name
+            };
+            return View(data.Players.List(playerOptions));
         }
         public IActionResult CourseList()
         {
-            var courses = context.Courses
-                .OrderBy(m => m.CourseName)
-                .ToList();
-            return View(courses);
+            var holeOptions = new QueryOptions<Hole>
+            {
+                Includes = "Course"
+            };
+            var courseOptions = new QueryOptions<Course>
+            {
+                OrderBy = d => d.CourseName
+            };
+            ViewBag.Holes = data.Holes.List(holeOptions);
+            return View(data.Courses.List(courseOptions));
         }
         public IActionResult HoleList()
         {
-            var holes = context.Holes
-                .OrderBy(m => m.CourseID)
-                .ToList();
-            return View(holes);
+            var holeOptions = new QueryOptions<Hole>
+            {
+                Includes = "Course",
+                OrderBy = d => d.Course.CourseName
+            };
+            return View(data.Holes.List(holeOptions));
         }
         public IActionResult GamePlayedList()
         {
-            var games = context.GamesPlayed
-                .OrderBy(m => m.PlayerID)
-                .ToList();
-            return View(games);
+            var gameOptions = new QueryOptions<GamePlayed>
+            {
+                Includes = "Player, Course",
+                OrderBy = d => d.GamePlayedID
+            };
+            return View(data.GamesPlayed.List(gameOptions));
         }
-
+        
         [HttpGet]
         public IActionResult DeletePlayer(int id)
         {
-            var player = context.Players.Find(id);
-            return View(player);
+            return View(data.Players.Get(id));
         }
         [HttpPost]
-        public  IActionResult DeletePlayer(Player p)
+        public  RedirectToActionResult DeletePlayer(Player p)
         {
-            context.Players.Remove(p);
-            context.SaveChanges();
-            return RedirectToAction("PlayerList", "Home");
-        }
-
-        [HttpGet]
-        public IActionResult AddCourse()
-        {
-            ViewBag.Action = "Add";
-            return View(new Course());
-        }
-        [HttpPost]
-        public IActionResult AddCourse(Course course)
-        {
-            if (ModelState.IsValid)
-            {
-                if (course.CourseID == 0)
-                    context.Courses.Add(course);
-                context.SaveChanges();
-                return RedirectToAction("CourseList", "Home");
-            }
-            else
-            {
-                return View("CourseList");
-            }
+            data.Players.Delete(p);
+            data.Players.Save();
+            return RedirectToAction("PlayerList");
         }
 
         [HttpGet]
         public IActionResult DeleteCourse(int id)
         {
-            var course = context.Courses.Find(id);
-            return View(course);
+            return View(data.Courses.Get(id));
         }
         [HttpPost]
-        public IActionResult DeleteCourse(Course course)
+        public RedirectToActionResult DeleteCourse(Course c)
         {
-            context.Courses.Remove(course);
-            context.SaveChanges();
-            return RedirectToAction("CourseList", "Home");
+            data.Courses.Delete(c);
+            data.Courses.Save();
+            return RedirectToAction("CourseList");
+        }
+
+        [HttpGet]
+        public IActionResult AddCourse()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddCourse(Course course)
+        {
+            data.Courses.Insert(course);
+            data.Courses.Save();
+            return RedirectToAction("CourseList");
         }
     }
 }

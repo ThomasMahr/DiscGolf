@@ -1,19 +1,18 @@
-﻿@{
+﻿@model IEnumerable<Player>
+@{
     ViewData["Title"] = "Player List";
 }
 
 <h2>Player List</h2>
-<!--Should the admin just be able to add a user?-->
 <!--Should the admin be able to change user passwords?-->
 <table class="table table-bordered table-striped">
     <thead>
-        <tr><th>PlayerID</th><th>Name</th><th>Username</th><th>Password</th><th></th></tr>
+        <tr><th>Name</th><th>Username</th><th>Password</th><th></th></tr>
     </thead>
     <tbody>
-        @foreach (var player in Model)
+        @foreach (Player player in Model)
         {
             <tr>
-                <td>@player.PlayerID</td>
                 <td>@player.Name</td>
                 <td>@player.Username</td>
                 <td>@player.Password</td>
