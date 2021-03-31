@@ -39,16 +39,6 @@ namespace DiscGolf.Areas.Controllers
             ViewBag.Holes = data.Holes.List(holeOptions);
             return View(data.Courses.List(courseOptions));
         }
-        public IActionResult HoleList()
-        {
-            var holeOptions = new QueryOptions<Hole>
-            {
-                Includes = "Course",
-                OrderBy = d => d.Course.CourseName,
-                ThenOrderBy = d => d.SequenceNumber
-            };
-            return View(data.Holes.List(holeOptions));
-        }
         public IActionResult GamePlayedList()
         {
             var gameOptions = new QueryOptions<GamePlayed>
@@ -130,6 +120,17 @@ namespace DiscGolf.Areas.Controllers
             return RedirectToAction("CourseList");
         }
 
+        [HttpGet]
+        public IActionResult ViewCourse(int id)
+        {
+            ViewBag.Holes = data.Holes.List(new QueryOptions<Hole>
+            {
+                Includes = "Course",
+                Where = h => h.CourseID == id,
+                OrderBy = h => h.SequenceNumber
+            });
+            return View(data.Courses.Get(id));
+        }
 
         [HttpGet]
         public IActionResult DeleteHole(int id)

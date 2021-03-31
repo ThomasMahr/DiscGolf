@@ -7,7 +7,7 @@
 <a asp-controller="Home" asp-action="AddCourse" class="btn btn-primary">Add New Course</a>
 <table class="table table-bordered table-striped">
     <thead>
-        <tr><th>CourseName</th><th>Number of Holes</th><th>Course Par</th><th>Edit</th><th>Delete</th></tr>
+        <tr><th>View</th><th>CourseName</th><th>Number of Holes</th><th>Course Par</th><th>Edit</th><th>Delete</th></tr>
     </thead>
     <tbody>
         @foreach (Course course in Model)
@@ -15,6 +15,11 @@
             int? coursePar = 0;
             var holeCount = 0;
             <tr>
+                <td>
+                    <a asp-controller="Home" asp-action="ViewCourse"
+                       asp-route-id="@course.CourseID"
+                       asp-route-slug="@course.Slug">View</a>
+                </td>
                 <td>@course.CourseName</td>
                 @{ foreach (Hole h in ViewBag.Holes)
                     {

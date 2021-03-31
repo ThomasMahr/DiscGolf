@@ -1,0 +1,24 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "Edit Course";
+}
+
+<h2>@Model.CourseName</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr><th>Sequence Number</th><th>Par</th><th>Distance (ft)</th></tr>
+    </thead>
+    <tbody>
+        @foreach (Hole hole in ViewBag.Holes)
+        {
+            <tr>
+                <td>@hole.SequenceNumber</td>
+                <td>@hole.Par</td>
+                <td>@hole.Distance</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Home" asp-action="CourseList" class="btn btn-primary">Course List</a>
