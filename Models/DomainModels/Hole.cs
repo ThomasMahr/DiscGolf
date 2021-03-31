@@ -18,6 +18,7 @@ namespace DiscGolf.Models
         public double? Distance{ get; set; } //in feet
 
         [Required(ErrorMessage = "Please enter the sequence number: ")]
+        [Range(0, 30, ErrorMessage = "Sequence Number must be between 0 and 30")]
         public int? SequenceNumber { get; set; }
     }
 }
