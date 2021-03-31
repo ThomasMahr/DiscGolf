@@ -1,9 +1,29 @@
-﻿@{
+﻿@model List<GamePlayed>
+@{
     ViewData["Title"] = "Leaderboard Page";
+
+    List<Course> courses = TempData["Courses"] as List<Course>;
 }
 
-<div class="text-center">
-    <p>This will hold the leaderboards when I have the database configured</p>
-
-    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>
-</div>
+@foreach (Course c in courses)
+{
+    <h2>@c.CourseName</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr><th>Player</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+            @foreach (GamePlayed gp in Model)
+            {
+                @if (gp.CourseID == c.CourseID)
+                {
+                    <tr>
+                        <td>@gp.Player.Name</td>
+                        <td>@gp.Score</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>

@@ -9,12 +9,8 @@ namespace DiscGolf.Controllers
 {
     public class PlayerController : Controller
     {
-        private DiscGolfContext context { get; set; }
-
-        public PlayerController(DiscGolfContext ctx)
-        {
-            context = ctx;
-        }
+        private GamesPlayedUnitOfWork data { get; set; }
+        public PlayerController(DiscGolfContext ctx) => data = new GamesPlayedUnitOfWork(ctx);
 
         public IActionResult Index()
         {

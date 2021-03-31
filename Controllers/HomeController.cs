@@ -9,12 +9,8 @@ namespace DiscGolf.Controllers
 {
     public class HomeController : Controller
     {
-        private DiscGolfContext context { get; set; }
-
-        public HomeController(DiscGolfContext ctx)
-        {
-            context = ctx;
-        }
+        private GamesPlayedUnitOfWork data { get; set; }
+        public HomeController(DiscGolfContext ctx) => data = new GamesPlayedUnitOfWork(ctx);
 
         public IActionResult Index()
         {
@@ -35,8 +31,11 @@ namespace DiscGolf.Controllers
         [HttpPost]
         public IActionResult Login(Player player)
         {
-            var players= context.Players
-                .ToList();
+            var playerOptions = new QueryOptions<Player>
+            {
+                OrderBy = d => d.Name
+            };
+            var players = data.Players.List(playerOptions);
             foreach (Player p in players)
             {
                 if (player.Username == p.Username)
@@ -45,12 +44,16 @@ namespace DiscGolf.Controllers
                     {
                         List<GamePlayed> playerGames = new List<GamePlayed>();
                         List<Course> allCourses = new List<Course>();
-                        var games = context.GamesPlayed
-                            .OrderBy(m => m.CourseID)
-                            .ToList();
-                        var courses = context.Courses
-                            .OrderBy(m => m.CourseID)
-                            .ToList();
+                        var gameOptions = new QueryOptions<GamePlayed>
+                        {
+                            OrderBy = gp => gp.GamePlayedID
+                        };
+                        var courseOptions = new QueryOptions<Course>
+                        {
+                            OrderBy = c => c.CourseID
+                        };
+                        var games = data.GamesPlayed.List(gameOptions);
+                        var courses = data.Courses.List(courseOptions);
                         foreach (Course c in courses)
                         {
                             allCourses.Add(c);
@@ -62,9 +65,9 @@ namespace DiscGolf.Controllers
                                 playerGames.Add(game);
                             }
                         }
-                        ViewData["Games"] = playerGames;
-                        ViewData["Courses"] = allCourses;
-                        ViewData["Player"] = p;
+                        TempData["Games"] = playerGames;
+                        TempData["Courses"] = allCourses;
+                        TempData["Player"] = p;
                         return View("../Player/Index");
                     }
                 }
@@ -85,8 +88,8 @@ namespace DiscGolf.Controllers
             if (ModelState.IsValid)
             {
                 if (player.PlayerID == 0)
-                    context.Players.Add(player);
-                context.SaveChanges();
+                    data.Players.Insert(player);
+                    data.Players.Save();
                 return RedirectToAction("Login", "Home");
             }
             else
