@@ -9,7 +9,7 @@ namespace DiscGolf.Models
         {
             entity.HasData(
                 new Course { CourseID = 1, CourseName = "Capitol Technology University", ZipCode = 20708 },
-                new Course { CourseID = 2, CourseName = "Turkey Hill Park", ZipCode = 20646}
+                new Course { CourseID = 2, CourseName = "Turkey Hill Park", ZipCode = 20646 }
             );
         }
     }
