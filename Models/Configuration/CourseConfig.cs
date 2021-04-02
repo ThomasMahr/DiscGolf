@@ -8,7 +8,8 @@ namespace DiscGolf.Models
         public void Configure(EntityTypeBuilder<Course> entity)
         {
             entity.HasData(
-                new Course { CourseID = 1, CourseName = "Capitol Technology University" }
+                new Course { CourseID = 1, CourseName = "Capitol Technology University", ZipCode = 20708 },
+                new Course { CourseID = 2, CourseName = "Turkey Hill Park", ZipCode = 20646}
             );
         }
     }

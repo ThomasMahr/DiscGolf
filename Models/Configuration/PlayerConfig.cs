@@ -9,7 +9,8 @@ namespace DiscGolf.Models
         {
             entity.HasData(
                 new Player { PlayerID = 1, Name = "Thomas Mahr", Username = "ThomasMahr", Password = "password" },
-                new Player { PlayerID = 2, Name = "Alyssa Ader", Username = "AAder", Password = "Engineering"}
+                new Player { PlayerID = 2, Name = "Alyssa Ader", Username = "AAder", Password = "Engineering" },
+                new Player { PlayerID = 3, Name = "Aaron Morphew", Username = "AMorphew", Password = "CompSci" }
             );
         }
     }

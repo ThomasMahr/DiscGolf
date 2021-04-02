@@ -11,6 +11,11 @@ namespace DiscGolf.Models
         [StringLength(40, ErrorMessage = "Course Name must be less than  40 characters")]
         public string CourseName { get; set; }
 
+        [Required(ErrorMessage = "Zip Code is required.")]
+        [Range(10000, 99999, ErrorMessage = "Zip Code must be 5 numbets")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Zip Code can only contain numbers")]
+        public int? ZipCode { get; set; }
+
         public ICollection<Hole> Holes { get; set; } //Navigation Property
         public ICollection<GamePlayed> GamesPlayed { get; set; } //Navigation Property
 
