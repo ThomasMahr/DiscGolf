@@ -43,7 +43,8 @@ namespace DiscGolf.Controllers
                     if (player.Password == p.Password)
                     {
                         List<GamePlayed> playerGames = new List<GamePlayed>();
-                        List<Course> allCourses = new List<Course>();
+                        List<Course> allPlayedCourses = new List<Course>();
+                        List<int?> coursePar = new List<int?>();
                         var gameOptions = new QueryOptions<GamePlayed>
                         {
                             OrderBy = gp => gp.GamePlayedID
@@ -54,19 +55,37 @@ namespace DiscGolf.Controllers
                         };
                         var games = data.GamesPlayed.List(gameOptions);
                         var courses = data.Courses.List(courseOptions);
-                        foreach (Course c in courses)
-                        {
-                            allCourses.Add(c);
-                        }
                         foreach (GamePlayed game in games)
                         {
                             if (game.PlayerID == p.PlayerID)
                             {
                                 playerGames.Add(game);
+                                foreach (Course c in courses)
+                                {
+                                    if(game.CourseID == c.CourseID)
+                                    {
+                                        if(allPlayedCourses.Contains(c) == false)
+                                        {
+                                            allPlayedCourses.Add(c);
+                                            var holeOptions = new QueryOptions<Hole>
+                                            {
+                                                Where = h => h.CourseID == c.CourseID
+                                            };
+                                            var holes = data.Holes.List(holeOptions);
+                                            int? par = 0;
+                                            foreach (Hole h in holes)
+                                            {
+                                                par += h.Par;
+                                            }
+                                            coursePar.Add(par);
+                                        }
+                                    }
+                                }
                             }
                         }
                         TempData["Games"] = playerGames;
-                        TempData["Courses"] = allCourses;
+                        TempData["Courses"] = allPlayedCourses;
+                        TempData["Pars"] = coursePar;
                         TempData["Player"] = p;
                         return View("../Player/Index");
                     }

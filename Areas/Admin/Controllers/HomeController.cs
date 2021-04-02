@@ -44,7 +44,8 @@ namespace DiscGolf.Areas.Controllers
             var gameOptions = new QueryOptions<GamePlayed>
             {
                 Includes = "Player, Course",
-                OrderBy = d => d.GamePlayedID
+                OrderBy = d => d.Course.CourseName,
+                ThenOrderBy = d => d.Score
             };
             return View(data.GamesPlayed.List(gameOptions));
         }

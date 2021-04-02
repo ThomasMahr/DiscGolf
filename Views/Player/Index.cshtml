@@ -2,21 +2,22 @@
 @{
     List<GamePlayed> playerGames = TempData["Games"] as List<GamePlayed>;
     List<Course> courses = TempData["Courses"] as List<Course>;
+    List<int?> pars = TempData["Pars"] as List<int?>;
     Player p = TempData["Player"] as Player;
+    int index = 0;
 }
 
 <h1>Hello @p.Name</h1>
 <!--Add a game highlights section to show best score, average score, etc. for each course-->
 
 <h2>Player's Games</h2>
-<!--For each game, also list the scores on each hole with par for hole-->
 <!--Also list par for the course as an overview-->
 @foreach (Course c in courses)
 {
     <h2>@c.CourseName</h2>
     <table class="table table-bordered table-striped">
         <thead>
-            <tr><th>Score</th></tr>
+            <tr><th>Score</th><th>Course Par</th></tr>
         </thead>
         <tbody>
             @foreach (GamePlayed gp in playerGames)
@@ -25,10 +26,12 @@
                 {
                     <tr>
                         <td>@gp.Score</td>
+                        <td>@pars[index]</td>
                     </tr>
                 }
             }
         </tbody>
     </table>
+    index += 1;
 }
-<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Home</a>
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>

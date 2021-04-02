@@ -3,6 +3,8 @@
     ViewData["Title"] = "Leaderboard Page";
 
     List<Course> courses = TempData["Courses"] as List<Course>;
+    List<int?> pars = TempData["Pars"] as List<int?>;
+    int index = 0;
 }
 
 @foreach (Course c in courses)
@@ -10,7 +12,7 @@
     <h2>@c.CourseName</h2>
     <table class="table table-bordered table-striped">
         <thead>
-            <tr><th>Player</th><th>Score</th></tr>
+            <tr><th>Player</th><th>Score</th><th>Course Par</th></tr>
         </thead>
         <tbody>
             @foreach (GamePlayed gp in Model)
@@ -20,10 +22,12 @@
                     <tr>
                         <td>@gp.Player.Name</td>
                         <td>@gp.Score</td>
+                        <td>@pars[index]</td>
                     </tr>
                 }
             }
         </tbody>
     </table>
+    index += 1;
 }
 <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>

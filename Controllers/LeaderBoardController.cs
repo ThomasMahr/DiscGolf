@@ -27,9 +27,21 @@ namespace DiscGolf.Controllers
             var games = data.GamesPlayed.List(gameOptions);
             var courses = data.Courses.List(courseOptions);
             List<GamePlayed> finalGames = new List<GamePlayed>();
+            List<int?> coursePar = new List<int?>();
 
             foreach (Course c in courses)
             {
+                var holeOptions = new QueryOptions<Hole>
+                {
+                    Where = h => h.CourseID == c.CourseID
+                };
+                var holes = data.Holes.List(holeOptions);
+                int? par = 0;
+                foreach (Hole h in holes)
+                {
+                    par += h.Par;
+                }
+                coursePar.Add(par);
                 var lowScore = 101;
                 List<GamePlayed> bestGames = new List<GamePlayed>();
                 foreach (GamePlayed gp in games)
@@ -53,6 +65,7 @@ namespace DiscGolf.Controllers
             }
 
             TempData["Courses"] = courses;
+            TempData["Pars"] = coursePar;
 
             return View(finalGames);
         }
