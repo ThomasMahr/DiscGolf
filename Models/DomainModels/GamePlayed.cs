@@ -5,6 +5,7 @@ namespace DiscGolf.Models
     public class GamePlayed
     {
         public int GamePlayedID { get; set; } //Primary Key
+        public bool GameFinished { get; set; }
 
         public int PlayerID { get; set; } //Foreign Key
         public int CourseID { get; set; } //Foreign Key
