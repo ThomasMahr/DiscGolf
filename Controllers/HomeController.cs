@@ -47,7 +47,8 @@ namespace DiscGolf.Controllers
                         List<int?> coursePar = new List<int?>();
                         var gameOptions = new QueryOptions<GamePlayed>
                         {
-                            OrderBy = gp => gp.GamePlayedID
+                            OrderBy = gp => gp.GamePlayedID,
+                            Where = gp => gp.Score != 0
                         };
                         var courseOptions = new QueryOptions<Course>
                         {

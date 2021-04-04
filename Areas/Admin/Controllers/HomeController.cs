@@ -44,9 +44,18 @@ namespace DiscGolf.Areas.Controllers
             var gameOptions = new QueryOptions<GamePlayed>
             {
                 Includes = "Player, Course",
+                Where = d => d.GameFinished != false,
                 OrderBy = d => d.Course.CourseName,
                 ThenOrderBy = d => d.Score
             };
+            var openGameOptions = new QueryOptions<GamePlayed>
+            {
+                Includes = "Player, Course",
+                Where = d => d.GameFinished != true,
+                OrderBy = d => d.Course.CourseName,
+                ThenOrderBy = d => d.Score
+            };
+            ViewBag.OpenGames = data.GamesPlayed.List(openGameOptions);
             return View(data.GamesPlayed.List(gameOptions));
         }
         
@@ -176,6 +185,19 @@ namespace DiscGolf.Areas.Controllers
             data.Holes.Update(h);
             data.Holes.Save();
             return RedirectToAction("CourseList");
+        }
+
+        [HttpGet]
+        public IActionResult DeleteGamePlayed(int id)
+        {
+            return View(data.GamesPlayed.Get(id));
+        }
+        [HttpPost]
+        public RedirectToActionResult DeleteGamePlayed(GamePlayed gp)
+        {
+            data.GamesPlayed.Delete(gp);
+            data.GamesPlayed.Save();
+            return RedirectToAction("GamePlayedList");
         }
     }
 }

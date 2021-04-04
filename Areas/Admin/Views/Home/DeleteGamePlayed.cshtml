@@ -1,0 +1,14 @@
+﻿@model GamePlayed
+@{
+
+}
+
+<h2>Confirm Deletion</h2>
+<h3>@Model.GamePlayedID</h3>
+
+<form asp-action="DeleteGamePlayed" method="post">
+    <input type="hidden" asp-for="GamePlayedID" />
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-controller="Home" asp-action="GamePlayedList" class="btn btn-primary">Cancel</a>
+</form>

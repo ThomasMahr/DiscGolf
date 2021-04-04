@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<GamePlayed>
 @{
     ViewData["Title"] = "Game List";
+    List<GamePlayed> openGames = ViewBag.OpenGames;
 }
 
 <h2>Game List</h2>
@@ -16,6 +17,26 @@
                 <td>@game.Player.Name</td>
                 <td>@game.Course.CourseName</td>
                 <td>@game.Score</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Open Games List</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr><th>PlayerName</th><th>CourseName</th><th>StartedBy</th><th>Delete</th></tr>
+    </thead>
+    <tbody>
+        @foreach (GamePlayed game in openGames)
+        {
+            <tr>
+                <td>@game.Player.Name</td>
+                <td>@game.Course.CourseName</td>
+                <td>@game.StartedByPlayerID</td>
+                <td><a asp-controller="Home" asp-action="DeleteGamePlayed"
+                       asp-route-id="@game.GamePlayedID">Delete</a></td>
             </tr>
         }
     </tbody>

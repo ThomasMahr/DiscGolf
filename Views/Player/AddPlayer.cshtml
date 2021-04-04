@@ -1,0 +1,29 @@
+﻿@model GamePlayed
+@{ 
+    ViewData["Title"] = "Add Player";
+    List<Course> courses = ViewBag.Courses;
+    List<Player> players = ViewBag.Players;
+    Player loggedInPlayer = ViewBag.LoggedInPlayer;
+    List<Player> starter = new List<Player>();
+    starter.Add(loggedInPlayer);
+}
+
+<form asp-action="AddPlayer" method="post">
+    <div class="form-group">
+        <label asp-for="StartedByPlayerID">Joing Game Of: </label>
+        <select asp-for="StartedByPlayerID" class="form-control"
+                asp-items="@(new SelectList(starter, "PlayerID", "Name"))"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="PlayerID">Add Player: </label>
+        <select asp-for="PlayerID" class="form-control"
+                asp-items="@(new SelectList(players, "PlayerID", "Name"))"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="CourseID">Confirm Course: </label>
+        <select asp-for="CourseID" class="form-control"
+                asp-items="@(new SelectList(courses, "CourseID", "CourseName"))"></select>
+    </div>
+    <button type="submit" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-primary">Add Player</button>
+    <a asp-controller="Player" asp-action="GameSetup" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel</a>
+</form>
