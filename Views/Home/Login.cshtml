@@ -1,8 +1,13 @@
 ﻿@model Player
 @{
     ViewData["Title"] = "Login Page";
+    string incorrectLogin = TempData["Incorrect"] as string;
 }
 
+@if(incorrectLogin != "")
+{
+    <p class="text-danger">@TempData["Incorrect"]</p>
+}
 <form asp-action="Login" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
@@ -13,7 +18,7 @@
         <label asp-for="Password">Password: </label>
         <input asp-for="Password" class="form-control col-sm-4" />
     </div>
-    <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+    <button type="submit" class="btn btn-primary">Login</button>
 </form>
 <a asp-controller="Home" asp-action="Register" class="btn btn-secondary">Register</a>
 <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Home</a>

@@ -11,7 +11,6 @@
 <!--Add a game highlights section to show best score, average score, etc. for each course-->
 
 <h2>Player's Games</h2>
-<!--Also list par for the course as an overview-->
 @foreach (Course c in courses)
 {
     <h2>@c.CourseName</h2>
@@ -34,4 +33,4 @@
     </table>
     index += 1;
 }
-<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Home</a>
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Logout</a>

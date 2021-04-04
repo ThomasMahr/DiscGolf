@@ -24,8 +24,8 @@ namespace DiscGolf.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            ViewBag.Action = "Login";
-            return View("Login", new Player());
+            TempData["Incorrect"] = "";
+            return View("Login");
         }
 
         [HttpPost]
@@ -62,9 +62,9 @@ namespace DiscGolf.Controllers
                                 playerGames.Add(game);
                                 foreach (Course c in courses)
                                 {
-                                    if(game.CourseID == c.CourseID)
+                                    if (game.CourseID == c.CourseID)
                                     {
-                                        if(allPlayedCourses.Contains(c) == false)
+                                        if (allPlayedCourses.Contains(c) == false)
                                         {
                                             allPlayedCourses.Add(c);
                                             var holeOptions = new QueryOptions<Hole>
@@ -90,8 +90,10 @@ namespace DiscGolf.Controllers
                         return View("../Player/Index");
                     }
                 }
+                
             }
-            return View("Index");
+            TempData["Incorrect"] = "Incorrect Login";
+            return View("Login");
         }
 
         [HttpGet]
