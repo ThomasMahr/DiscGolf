@@ -55,6 +55,8 @@ namespace DiscGolf.Areas.Controllers
                 OrderBy = d => d.Course.CourseName,
                 ThenOrderBy = d => d.Score
             };
+            var playerOptions = new QueryOptions<Player>{ };
+            ViewBag.Players = data.Players.List(playerOptions);
             ViewBag.OpenGames = data.GamesPlayed.List(openGameOptions);
             return View(data.GamesPlayed.List(gameOptions));
         }

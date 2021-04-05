@@ -1,0 +1,26 @@
+﻿@model GamePlayed
+@{
+    ViewData["Title"] = "Update Score";
+    Course course = ViewBag.Course;
+    Player player = ViewBag.Player;
+}
+
+<h2>@course.CourseName</h2>
+<h2>@player.Name</h2>
+
+<form asp-action="UpdateScore" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label>Current Score: @Model.Score</label>
+    <div class="form-group">
+        <label asp-for="Score">New Score: </label>
+        <input asp-for="Score" class="form-control" />
+    </div>
+
+    <input type="hidden" asp-for="GameFinished" />
+    <input type="hidden" asp-for="CourseID" />
+    <input type="hidden" asp-for="PlayerID" />
+    <input type="hidden" asp-for="StartedByPlayerID" />
+    <input type="hidden" asp-for="GamePlayedID" />
+
+    <button type="submit" class="btn btn-primary">Update Score</button>
+</form>

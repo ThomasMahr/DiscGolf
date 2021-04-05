@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Game List";
     List<GamePlayed> openGames = ViewBag.OpenGames;
+    List<Player> players = ViewBag.Players;
 }
 
 <h2>Game List</h2>
@@ -26,7 +27,7 @@
 
 <table class="table table-bordered table-striped">
     <thead>
-        <tr><th>PlayerName</th><th>CourseName</th><th>StartedBy</th><th>Delete</th></tr>
+        <tr><th>Player Name</th><th>Course Name</th><th>Started By</th><th>Delete</th></tr>
     </thead>
     <tbody>
         @foreach (GamePlayed game in openGames)
@@ -34,7 +35,13 @@
             <tr>
                 <td>@game.Player.Name</td>
                 <td>@game.Course.CourseName</td>
-                <td>@game.StartedByPlayerID</td>
+                @foreach(Player p in players)
+                {
+                    if (p.PlayerID == game.StartedByPlayerID)
+                    {
+                        <td>@p.Name</td>
+                    }
+                }
                 <td><a asp-controller="Home" asp-action="DeleteGamePlayed"
                        asp-route-id="@game.GamePlayedID">Delete</a></td>
             </tr>

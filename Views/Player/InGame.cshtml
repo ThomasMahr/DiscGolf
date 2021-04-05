@@ -1,0 +1,29 @@
+﻿@model List<GamePlayed>
+@{ 
+    ViewData["Title"] = "In Game";
+    Course selectedCourse = ViewBag.Course;
+    Player loggedInPlayer = ViewBag.StartingPlayer;
+    List<Player> players = ViewBag.Players;
+}
+
+<h2>@selectedCourse.CourseName</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr><th>Name</th><th>Score</th><th>Update Score</th></tr>
+    </thead>
+    <tbody>
+        @foreach (GamePlayed game in Model)
+        {
+            <tr>
+                <td>@game.Player.Name</td>
+                <td>@game.Score</td>
+                <td>
+                    <a asp-controller="Player" asp-action="UpdateScore"
+                        asp-route-id="@game.GamePlayedID">Update</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-controller="Player" asp-action="EndGame" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-primary">End Game</a>
+<a asp-controller="Player" asp-action="BackToIndex" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel</a>
