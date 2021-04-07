@@ -42,6 +42,10 @@ namespace DiscGolf.Controllers
                 {
                     if (player.Password == p.Password)
                     {
+                        if(p.Name == "Admin")
+                        {
+                            return RedirectToAction("Index", "Home", new { Area = "Admin" });
+                        }
                         List<GamePlayed> playerGames = new List<GamePlayed>();
                         List<GamePlayed> playerOpenGames = new List<GamePlayed>();
                         List<Course> allPlayedCourses = new List<Course>();
