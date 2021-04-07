@@ -1,10 +1,14 @@
 ﻿@model Player
 @{
     List<GamePlayed> playerGames = TempData["Games"] as List<GamePlayed>;
+    List<GamePlayed> playerOpenGames = TempData["OpenGames"] as List<GamePlayed>;
     List<Course> courses = TempData["Courses"] as List<Course>;
     List<int?> pars = TempData["Pars"] as List<int?>;
+    List<int?> openPars = TempData["OpenCoursePar"] as List<int?>;
+    List<Course> openCourses = TempData["OpenCourses"] as List<Course>;
     Player p = TempData["Player"] as Player;
-    int index = 0;
+    int finishedIndex = 0;
+    int unfinishedIndex = 0;
 }
 
 <h1>Hello @p.Name</h1>
@@ -25,13 +29,48 @@
                 {
                     <tr>
                         <td>@gp.Score</td>
-                        <td>@pars[index]</td>
+                        <td>@pars[finishedIndex]</td>
                     </tr>
                 }
             }
         </tbody>
     </table>
-    index += 1;
+    finishedIndex += 1;
+}
+
+<h2>Player's Open Games</h2>
+@if (playerOpenGames.Count != 0)
+{
+    @foreach (Course c in openCourses)
+    {
+        <h2>@c.CourseName</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr><th>Score</th><th>Course Par</th><th>Continue Game</th></tr>
+            </thead>
+            <tbody>
+                @foreach (GamePlayed gp in playerOpenGames)
+                {
+                    @if (gp.CourseID == c.CourseID)
+                    {
+                        <tr>
+                            <td>@gp.Score</td>
+                            <td>@openPars[unfinishedIndex]</td>
+                            <td>
+                                <a asp-controller="Player" asp-action="ContinueGame"
+                                   asp-route-id="@gp.GamePlayedID" class="btn btn-primary">Continue</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        unfinishedIndex += 1;
+    }
+}
+else
+{
+    <h2>No Open Games</h2>
 }
 <a asp-controller="Player" asp-action="GameSetup" asp-route-id="@p.PlayerID" class="btn btn-primary">Play Game</a>
 <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Logout</a>

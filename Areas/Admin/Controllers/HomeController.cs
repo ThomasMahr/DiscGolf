@@ -55,19 +55,19 @@ namespace DiscGolf.Areas.Controllers
                 OrderBy = d => d.Course.CourseName,
                 ThenOrderBy = d => d.Score
             };
-            var playerOptions = new QueryOptions<Player>{ };
+            var playerOptions = new QueryOptions<Player> { };
             ViewBag.Players = data.Players.List(playerOptions);
             ViewBag.OpenGames = data.GamesPlayed.List(openGameOptions);
             return View(data.GamesPlayed.List(gameOptions));
         }
-        
+
         [HttpGet]
         public IActionResult DeletePlayer(int id)
         {
             return View(data.Players.Get(id));
         }
         [HttpPost]
-        public  RedirectToActionResult DeletePlayer(Player p)
+        public RedirectToActionResult DeletePlayer(Player p)
         {
             data.Players.Delete(p);
             data.Players.Save();
@@ -147,7 +147,7 @@ namespace DiscGolf.Areas.Controllers
         [HttpGet]
         public IActionResult DeleteHole(int id)
         {
-            ViewBag.Courses = data.Courses.List(new QueryOptions<Course>{});
+            ViewBag.Courses = data.Courses.List(new QueryOptions<Course> { });
             return View(data.Holes.Get(id));
         }
         [HttpPost]

@@ -43,19 +43,33 @@ namespace DiscGolf.Controllers
                     if (player.Password == p.Password)
                     {
                         List<GamePlayed> playerGames = new List<GamePlayed>();
+                        List<GamePlayed> playerOpenGames = new List<GamePlayed>();
                         List<Course> allPlayedCourses = new List<Course>();
+                        List<Course> allPlayerOpenCourses = new List<Course>();
                         List<int?> coursePar = new List<int?>();
+                        List<int?> openCoursePar = new List<int?>();
                         var gameOptions = new QueryOptions<GamePlayed>
                         {
-                            OrderBy = gp => gp.GamePlayedID,
-                            Where = gp => gp.Score != 0
+                            OrderBy = gp => gp.Score,
+                            Where = gp => gp.GameFinished == true
                         };
                         var courseOptions = new QueryOptions<Course>
                         {
-                            OrderBy = c => c.CourseID
+                            OrderBy = c => c.CourseName
+                        };
+                        var openCourseOptions = new QueryOptions<Course>
+                        {
+                            OrderBy = c => c.CourseName
+                        };
+                        var openGameOptions = new QueryOptions<GamePlayed>
+                        {
+                            Where = gp => gp.GameFinished == false,
+                            OrderBy = gp => gp.GamePlayedID
                         };
                         var games = data.GamesPlayed.List(gameOptions);
+                        var openGames = data.GamesPlayed.List(openGameOptions);
                         var courses = data.Courses.List(courseOptions);
+                        var openCourses = data.Courses.List(openCourseOptions);
                         foreach (GamePlayed game in games)
                         {
                             if (game.PlayerID == p.PlayerID)
@@ -84,10 +98,41 @@ namespace DiscGolf.Controllers
                                 }
                             }
                         }
+                        foreach(GamePlayed openGame in openGames)
+                        {
+                            if(openGame.PlayerID == p.PlayerID)
+                            {
+                                playerOpenGames.Add(openGame);
+                            }
+                            foreach(Course course in openCourses)
+                            {
+                                if(course.CourseID == openGame.CourseID)
+                                {
+                                    if(allPlayerOpenCourses.Contains(course) == false)
+                                    {
+                                        allPlayerOpenCourses.Add(course);
+                                        var holeOptions = new QueryOptions<Hole>
+                                        {
+                                            Where = h => h.CourseID == course.CourseID
+                                        };
+                                        var holes = data.Holes.List(holeOptions);
+                                        int? par = 0;
+                                        foreach (Hole h in holes)
+                                        {
+                                            par += h.Par;
+                                        }
+                                        openCoursePar.Add(par);
+                                    }
+                                }
+                            }
+                        }
+                        TempData["OpenGames"] = playerOpenGames;
                         TempData["Games"] = playerGames;
                         TempData["Courses"] = allPlayedCourses;
                         TempData["Pars"] = coursePar;
                         TempData["Player"] = p;
+                        TempData["OpenCourses"] = allPlayerOpenCourses;
+                        TempData["OpenCoursePar"] = openCoursePar;
                         return View("../Player/Index");
                     }
                 }

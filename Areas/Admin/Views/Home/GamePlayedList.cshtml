@@ -18,6 +18,8 @@
                 <td>@game.Player.Name</td>
                 <td>@game.Course.CourseName</td>
                 <td>@game.Score</td>
+                <td><a asp-controller="Home" asp-action="DeleteGamePlayed"
+                       asp-route-id="@game.GamePlayedID">Delete</a></td>
             </tr>
         }
     </tbody>
@@ -27,7 +29,7 @@
 
 <table class="table table-bordered table-striped">
     <thead>
-        <tr><th>Player Name</th><th>Course Name</th><th>Started By</th><th>Delete</th></tr>
+        <tr><th>Player Name</th><th>Course Name</th><th>Current Score</th><th>Started By</th><th>Delete</th></tr>
     </thead>
     <tbody>
         @foreach (GamePlayed game in openGames)
@@ -35,6 +37,7 @@
             <tr>
                 <td>@game.Player.Name</td>
                 <td>@game.Course.CourseName</td>
+                <td>@game.Score</td>
                 @foreach(Player p in players)
                 {
                     if (p.PlayerID == game.StartedByPlayerID)

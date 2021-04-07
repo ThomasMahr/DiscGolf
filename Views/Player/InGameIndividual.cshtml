@@ -17,13 +17,13 @@
                 <td>@game.Player.Name</td>
                 <td>@game.Score</td>
                 <td>
-                    <a asp-controller="Player" asp-action="UpdateScore"
+                    <a asp-controller="Player" asp-action="UpdateScoreIndividual"
                         asp-route-id="@game.GamePlayedID" class="btn btn-primary">Update</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<a asp-controller="Player" asp-action="EndGame" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-primary">End Game</a>
+<a asp-controller="Player" asp-action="EndGameIndividual" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-primary">End Game</a>
 <a asp-controller="Player" asp-action="BackToIndex" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Finish Game Later</a>
-<a asp-controller="Player" asp-action="DeleteGames" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel Game</a>
+<a asp-controller="Player" asp-action="DeleteGamesIndividual" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel Game</a>
