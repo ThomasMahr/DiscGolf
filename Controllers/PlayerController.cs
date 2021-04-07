@@ -333,7 +333,7 @@ namespace DiscGolf.Controllers
             ViewBag.Games = data.GamesPlayed.List(new QueryOptions<GamePlayed>
             {
                 Includes = "Player",
-                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == id
+                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == id && gp.Score == 0
             });
             return View();
         }
@@ -351,7 +351,7 @@ namespace DiscGolf.Controllers
             var gameOptions = new QueryOptions<GamePlayed>
             { 
                 Includes = "Player",
-                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == model.StartingPlayerID
+                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == model.StartingPlayerID && gp.Score == 0
             };
             List<GamePlayed> openGames = new List<GamePlayed>(data.GamesPlayed.List(gameOptions));
             ViewBag.Holes = data.Holes.List(new QueryOptions<Hole> { Where = h => h.CourseID == model.SelectedCourseID });
@@ -395,7 +395,7 @@ namespace DiscGolf.Controllers
             ViewBag.Games = data.GamesPlayed.List(new QueryOptions<GamePlayed>
             {
                 Includes = "Player",
-                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == game.StartedByPlayerID
+                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == game.StartedByPlayerID && gp.Score == 0
             });
             return View("GameSetup");
         }
