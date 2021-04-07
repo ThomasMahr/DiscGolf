@@ -58,6 +58,7 @@ namespace DiscGolf.Areas.Controllers
             var playerOptions = new QueryOptions<Player> { };
             ViewBag.Players = data.Players.List(playerOptions);
             ViewBag.OpenGames = data.GamesPlayed.List(openGameOptions);
+            ViewBag.Holes = data.Holes.List(new QueryOptions<Hole> { });
             return View(data.GamesPlayed.List(gameOptions));
         }
 

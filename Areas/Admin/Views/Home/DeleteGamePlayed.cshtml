@@ -4,7 +4,7 @@
 }
 
 <h2>Confirm Deletion</h2>
-<h3>@Model.GamePlayedID</h3>
+<h3>@Model.GamePlayedID [Score: @Model.Score]</h3>
 
 <form asp-action="DeleteGamePlayed" method="post">
     <input type="hidden" asp-for="GamePlayedID" />

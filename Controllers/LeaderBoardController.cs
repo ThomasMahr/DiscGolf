@@ -21,7 +21,8 @@ namespace DiscGolf.Controllers
             var gameOptions = new QueryOptions<GamePlayed>
             {
                 Includes = "Player, Course",
-                OrderBy = gp => gp.GamePlayedID
+                OrderBy = gp => gp.GamePlayedID,
+                Where = gp => gp.GameFinished == true
             };
 
             var games = data.GamesPlayed.List(gameOptions);

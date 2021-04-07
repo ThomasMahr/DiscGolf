@@ -12,7 +12,7 @@ namespace DiscGolf.Models
         public string CourseName { get; set; }
 
         [Required(ErrorMessage = "Zip Code is required.")]
-        [Range(10000, 99999, ErrorMessage = "Zip Code must be 5 numbets")]
+        [Range(10000, 99999, ErrorMessage = "Zip Code must be 5 numbers")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Zip Code can only contain numbers")]
         public int? ZipCode { get; set; }
 
