@@ -21,7 +21,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Start Game</button>
     <a asp-controller="Player" asp-action="AddPlayer" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-primary">Add Player</a>
-    <a asp-controller="Player" asp-action="BackToIndex" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel</a>
+    <a asp-controller="Player" asp-action="DeleteGames" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel Game</a>
 </form>
 
 <p></p>

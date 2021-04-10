@@ -402,19 +402,26 @@ namespace DiscGolf.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddPlayer(GamePlayed game)
+        public IActionResult AddPlayer(AddPlayerViewModel model)
         {
-            game.GameFinished = false;
-            data.GamesPlayed.Insert(game);
-            data.GamesPlayed.Save();
-
-            Player loggedInPlayer = data.Players.Get(game.StartedByPlayerID);
+            Player p = data.Players.Get(model.PlayerID);
+            if (p.Password == model.Password)
+            {
+                GamePlayed game = new GamePlayed();
+                game.CourseID = model.CourseID;
+                game.PlayerID = model.PlayerID;
+                game.StartedByPlayerID = model.StartedByPlayerID;
+                game.GameFinished = false;
+                data.GamesPlayed.Insert(game);
+                data.GamesPlayed.Save();
+            }
+            Player loggedInPlayer = data.Players.Get(model.StartedByPlayerID);
             ViewBag.LoggedInPlayer = loggedInPlayer;
             ViewBag.Courses = data.Courses.List(new QueryOptions<Course> { });
             ViewBag.Games = data.GamesPlayed.List(new QueryOptions<GamePlayed>
             {
                 Includes = "Player, Course",
-                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == game.StartedByPlayerID && gp.Score == 0
+                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == model.StartedByPlayerID && gp.Score == 0
             });
             return View("GameSetup");
         }

@@ -1,4 +1,4 @@
-﻿@model GamePlayed
+﻿@model AddPlayerViewModel
 @{ 
     ViewData["Title"] = "Add Player";
     List<Course> courses = ViewBag.Courses;
@@ -24,6 +24,10 @@
         <select asp-for="CourseID" class="form-control"
                 asp-items="@(new SelectList(courses, "CourseID", "CourseName"))"></select>
     </div>
-    <button type="submit" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-primary">Add Player</button>
+    <div class="form-group">
+        <label asp-for="Password">Added Player's Password: </label>
+        <input asp-for="Password" class="form-control col-sm-4" type="password" />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Player</button>
     <a asp-controller="Player" asp-action="GameSetup" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel</a>
 </form>
