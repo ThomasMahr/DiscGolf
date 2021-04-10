@@ -14,7 +14,7 @@
 <h1 class="text-center">Hello @p.Name</h1>
 <!--Add a game highlights section to show best score, average score, etc. for each course-->
 
-<h2>Player's Games</h2>
+<h2 class="text-center">Finished Games</h2>
 @foreach (Course c in courses)
 {
     <h2>@c.CourseName</h2>
@@ -38,7 +38,7 @@
     finishedIndex += 1;
 }
 
-<h2>Player's Open Games</h2>
+<h2 class="text-center">Open Games</h2>
 @if (playerOpenGames.Count != 0)
 {
     @foreach (Course c in openCourses)

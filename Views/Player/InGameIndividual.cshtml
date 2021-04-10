@@ -3,6 +3,7 @@
     ViewData["Title"] = "In Game";
     Course selectedCourse = ViewBag.Course;
     Player loggedInPlayer = ViewBag.StartingPlayer;
+    GamePlayed currentGame = ViewBag.CurrentGame;
 }
 
 <h2>@selectedCourse.CourseName</h2>
@@ -24,6 +25,6 @@
         }
     </tbody>
 </table>
-<a asp-controller="Player" asp-action="EndGameIndividual" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-primary">End Game</a>
+<a asp-controller="Player" asp-action="EndGameIndividual" asp-route-id="@currentGame.GamePlayedID" class="btn btn-primary">End Game</a>
 <a asp-controller="Player" asp-action="BackToIndex" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Finish Game Later</a>
-<a asp-controller="Player" asp-action="DeleteGamesIndividual" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel Game</a>
+<a asp-controller="Player" asp-action="DeleteGamesIndividual" asp-route-id="@currentGame.GamePlayedID" class="btn btn-secondary">Cancel Game</a>

@@ -18,9 +18,10 @@ namespace DiscGolf.Controllers
         }
         public IActionResult DeleteGamesIndividual(int id)
         {
+            GamePlayed g = data.GamesPlayed.Get(id);
             var gamesToDelete = new QueryOptions<GamePlayed>
             {
-                Where = gp => gp.GameFinished == false && gp.PlayerID == id
+                Where = gp => gp.GamePlayedID == id
             };
             var toDelete = data.GamesPlayed.List(gamesToDelete);
             foreach (GamePlayed gp in toDelete)
@@ -28,7 +29,7 @@ namespace DiscGolf.Controllers
                 data.GamesPlayed.Delete(gp);
             }
             data.GamesPlayed.Save();
-            Player p = data.Players.Get(id);
+            Player p = data.Players.Get(g.PlayerID);
             List<GamePlayed> playerGames = new List<GamePlayed>();
             List<GamePlayed> playerOpenGames = new List<GamePlayed>();
             List<Course> allPlayedCourses = new List<Course>();
@@ -329,10 +330,10 @@ namespace DiscGolf.Controllers
         {
             Player loggedInPlayer = data.Players.Get(id);
             ViewBag.LoggedInPlayer = loggedInPlayer;
-            ViewBag.Courses = data.Courses.List(new QueryOptions<Course>{});
+            ViewBag.Courses = data.Courses.List(new QueryOptions<Course> { });
             ViewBag.Games = data.GamesPlayed.List(new QueryOptions<GamePlayed>
             {
-                Includes = "Player",
+                Includes = "Player, Course",
                 Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == id && gp.Score == 0
             });
             return View();
@@ -349,8 +350,8 @@ namespace DiscGolf.Controllers
             data.GamesPlayed.Save();
 
             var gameOptions = new QueryOptions<GamePlayed>
-            { 
-                Includes = "Player",
+            {
+                Includes = "Player, Course",
                 Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == model.StartingPlayerID && gp.Score == 0
             };
             List<GamePlayed> openGames = new List<GamePlayed>(data.GamesPlayed.List(gameOptions));
@@ -358,6 +359,23 @@ namespace DiscGolf.Controllers
             ViewBag.Course = data.Courses.Get(model.SelectedCourseID);
             ViewBag.StartingPlayer = data.Players.Get(model.StartingPlayerID);
             return View("InGame", openGames);
+        }
+        public IActionResult RemovePlayer(int id)
+        {
+            GamePlayed game = data.GamesPlayed.Get(id);
+            data.GamesPlayed.Delete(game);
+            data.GamesPlayed.Save();
+
+            Player loggedInPlayer = data.Players.Get(game.StartedByPlayerID);
+            ViewBag.LoggedInPlayer = loggedInPlayer;
+            ViewBag.Courses = data.Courses.List(new QueryOptions<Course> { });
+            ViewBag.Games = data.GamesPlayed.List(new QueryOptions<GamePlayed>
+            {
+                Includes = "Player, Course",
+                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == game.StartedByPlayerID && gp.Score == 0
+            });
+
+            return View("GameSetup");
         }
         public IActionResult ContinueGame(int id)
         {
@@ -371,6 +389,7 @@ namespace DiscGolf.Controllers
             ViewBag.Holes = data.Holes.List(new QueryOptions<Hole> { Where = h => h.CourseID == game.CourseID });
             ViewBag.Course = data.Courses.Get(game.CourseID);
             ViewBag.StartingPlayer = data.Players.Get(game.PlayerID);
+            ViewBag.CurrentGame = game;
             return View("InGameIndividual", games);
         }
         [HttpGet]
@@ -394,7 +413,7 @@ namespace DiscGolf.Controllers
             ViewBag.Courses = data.Courses.List(new QueryOptions<Course> { });
             ViewBag.Games = data.GamesPlayed.List(new QueryOptions<GamePlayed>
             {
-                Includes = "Player",
+                Includes = "Player, Course",
                 Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == game.StartedByPlayerID && gp.Score == 0
             });
             return View("GameSetup");
@@ -558,15 +577,16 @@ namespace DiscGolf.Controllers
             ViewBag.Course = data.Courses.Get(game.CourseID);
             ViewBag.StartingPlayer = data.Players.Get(game.PlayerID);
             ViewBag.Players = data.Players.List(new QueryOptions<Player> { });
+            ViewBag.CurrentGame = game;
             return View("InGameIndividual", openGames);
         }
         public IActionResult EndGameIndividual(int id)
         {
-            GamePlayed g = new GamePlayed();
-            Player p = data.Players.Get(id);
+            GamePlayed g = data.GamesPlayed.Get(id);
+            Player p = data.Players.Get(g.PlayerID);
             var gOptions = new QueryOptions<GamePlayed>
             {
-                Where = gp => gp.GameFinished == false && gp.PlayerID == id
+                Where = gp => gp.GamePlayedID == id
             };
             var finishedGames = data.GamesPlayed.List(gOptions);
             foreach (GamePlayed game in finishedGames)
