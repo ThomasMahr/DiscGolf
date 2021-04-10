@@ -9,24 +9,24 @@
 }
 
 <form asp-action="AddPlayer" method="post">
-    <div class="form-group">
+    <div class="form-group col-sm-6">
         <label asp-for="StartedByPlayerID">Joing Game Of: </label>
         <select asp-for="StartedByPlayerID" class="form-control"
                 asp-items="@(new SelectList(starter, "PlayerID", "Name"))"></select>
     </div>
-    <div class="form-group">
+    <div class="form-group col-sm-6">
         <label asp-for="PlayerID">Add Player: </label>
         <select asp-for="PlayerID" class="form-control"
                 asp-items="@(new SelectList(players, "PlayerID", "Name"))"></select>
     </div>
-    <div class="form-group">
+    <div class="form-group col-sm-6">
         <label asp-for="CourseID">Confirm Course: </label>
         <select asp-for="CourseID" class="form-control"
                 asp-items="@(new SelectList(courses, "CourseID", "CourseName"))"></select>
     </div>
-    <div class="form-group">
+    <div class="form-group col-sm-6">
         <label asp-for="Password">Added Player's Password: </label>
-        <input asp-for="Password" class="form-control col-sm-4" type="password" />
+        <input asp-for="Password" class="form-control" type="password" />
     </div>
     <button type="submit" class="btn btn-primary">Add Player</button>
     <a asp-controller="Player" asp-action="GameSetup" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Cancel</a>

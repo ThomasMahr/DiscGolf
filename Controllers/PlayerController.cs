@@ -124,7 +124,7 @@ namespace DiscGolf.Controllers
                 data.GamesPlayed.Delete(gp);
             }
             data.GamesPlayed.Save();
-            ToIndex(id);
+            ToIndex(g.PlayerID);
             return View("Index");
         }
         public IActionResult DeleteGames(int id)
@@ -282,7 +282,7 @@ namespace DiscGolf.Controllers
             var gameOptions = new QueryOptions<GamePlayed>
             {
                 Includes = "Player",
-                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == game.StartedByPlayerID
+                Where = gp => gp.GameFinished == false && gp.StartedByPlayerID == game.StartedByPlayerID && gp.CourseID == game.CourseID
             };
             List<GamePlayed> openGames = new List<GamePlayed>(data.GamesPlayed.List(gameOptions));
             ViewBag.Holes = data.Holes.List(new QueryOptions<Hole> { Where = h => h.CourseID == game.CourseID });
@@ -321,7 +321,6 @@ namespace DiscGolf.Controllers
         public IActionResult EndGameIndividual(int id)
         {
             GamePlayed g = data.GamesPlayed.Get(id);
-            Player p = data.Players.Get(g.PlayerID);
             var gOptions = new QueryOptions<GamePlayed>
             {
                 Where = gp => gp.GamePlayedID == id
@@ -334,97 +333,7 @@ namespace DiscGolf.Controllers
                 g = game;
             }
             data.GamesPlayed.Save();
-            List<GamePlayed> playerGames = new List<GamePlayed>();
-            List<GamePlayed> playerOpenGames = new List<GamePlayed>();
-            List<Course> allPlayedCourses = new List<Course>();
-            List<Course> allPlayerOpenCourses = new List<Course>();
-            List<int?> coursePar = new List<int?>();
-            List<int?> openCoursePar = new List<int?>();
-            var gameOptions = new QueryOptions<GamePlayed>
-            {
-                OrderBy = gp => gp.Score,
-                Where = gp => gp.GameFinished == true
-            };
-            var courseOptions = new QueryOptions<Course>
-            {
-                OrderBy = c => c.CourseName
-            };
-            var openCourseOptions = new QueryOptions<Course>
-            {
-                OrderBy = c => c.CourseName
-            };
-            var openGameOptions = new QueryOptions<GamePlayed>
-            {
-                Where = gp => gp.GameFinished == false,
-                OrderBy = gp => gp.GamePlayedID
-            };
-            var games = data.GamesPlayed.List(gameOptions);
-            var openGames = data.GamesPlayed.List(openGameOptions);
-            var courses = data.Courses.List(courseOptions);
-            var openCourses = data.Courses.List(openCourseOptions);
-            foreach (GamePlayed game in games)
-            {
-                if (game.PlayerID == p.PlayerID)
-                {
-                    playerGames.Add(game);
-                    foreach (Course c in courses)
-                    {
-                        if (game.CourseID == c.CourseID)
-                        {
-                            if (allPlayedCourses.Contains(c) == false)
-                            {
-                                allPlayedCourses.Add(c);
-                                var holeOptions = new QueryOptions<Hole>
-                                {
-                                    Where = h => h.CourseID == c.CourseID
-                                };
-                                var holes = data.Holes.List(holeOptions);
-                                int? par = 0;
-                                foreach (Hole h in holes)
-                                {
-                                    par += h.Par;
-                                }
-                                coursePar.Add(par);
-                            }
-                        }
-                    }
-                }
-            }
-            foreach (GamePlayed openGame in openGames)
-            {
-                if (openGame.PlayerID == p.PlayerID)
-                {
-                    playerOpenGames.Add(openGame);
-                }
-                foreach (Course course in openCourses)
-                {
-                    if (course.CourseID == openGame.CourseID)
-                    {
-                        if (allPlayerOpenCourses.Contains(course) == false)
-                        {
-                            allPlayerOpenCourses.Add(course);
-                            var holeOptions = new QueryOptions<Hole>
-                            {
-                                Where = h => h.CourseID == course.CourseID
-                            };
-                            var holes = data.Holes.List(holeOptions);
-                            int? par = 0;
-                            foreach (Hole h in holes)
-                            {
-                                par += h.Par;
-                            }
-                            openCoursePar.Add(par);
-                        }
-                    }
-                }
-            }
-            TempData["OpenGames"] = playerOpenGames;
-            TempData["Games"] = playerGames;
-            TempData["Courses"] = allPlayedCourses;
-            TempData["Pars"] = coursePar;
-            TempData["Player"] = p;
-            TempData["OpenCourses"] = allPlayerOpenCourses;
-            TempData["OpenCoursePar"] = openCoursePar;
+            ToIndex(g.PlayerID);
             return View("Index");
         }
     }
