@@ -25,6 +25,7 @@
         }
     </tbody>
 </table>
+<p>@ViewBag.Weather</p>
 <a asp-controller="Player" asp-action="EndGameIndividual" asp-route-id="@currentGame.GamePlayedID" class="btn btn-primary">End Game</a>
 <a asp-controller="Player" asp-action="BackToIndex" asp-route-id="@loggedInPlayer.PlayerID" class="btn btn-secondary">Finish Game Later</a>
 <a asp-controller="Player" asp-action="DeleteGamesIndividual" asp-route-id="@currentGame.GamePlayedID" class="btn btn-secondary">Cancel Game</a>

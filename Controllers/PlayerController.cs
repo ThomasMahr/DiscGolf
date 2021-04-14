@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DiscGolf.Models;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace DiscGolf.Controllers
 {
@@ -180,6 +183,8 @@ namespace DiscGolf.Controllers
             ViewBag.Holes = data.Holes.List(new QueryOptions<Hole> { Where = h => h.CourseID == model.SelectedCourseID });
             ViewBag.Course = data.Courses.Get(model.SelectedCourseID);
             ViewBag.StartingPlayer = data.Players.Get(model.StartingPlayerID);
+            Course c = data.Courses.Get(model.SelectedCourseID);
+            ViewBag.Weather = GetWeather(c.ZipCode);
             return View("InGame", openGames);
         }
         public IActionResult RemovePlayer(int id)
@@ -212,6 +217,8 @@ namespace DiscGolf.Controllers
             ViewBag.Course = data.Courses.Get(game.CourseID);
             ViewBag.StartingPlayer = data.Players.Get(game.PlayerID);
             ViewBag.CurrentGame = game;
+            Course c = data.Courses.Get(game.CourseID);
+            ViewBag.Weather = GetWeather(c.ZipCode);
             return View("InGameIndividual", games);
         }
         [HttpGet]
@@ -289,6 +296,8 @@ namespace DiscGolf.Controllers
             ViewBag.Course = data.Courses.Get(game.CourseID);
             ViewBag.StartingPlayer = data.Players.Get(game.StartedByPlayerID);
             ViewBag.Players = data.Players.List(new QueryOptions<Player> { });
+            Course c = data.Courses.Get(game.CourseID);
+            ViewBag.Weather = GetWeather(c.ZipCode);
             return View("InGame", openGames);
         }
         [HttpGet]
@@ -316,6 +325,8 @@ namespace DiscGolf.Controllers
             ViewBag.StartingPlayer = data.Players.Get(game.PlayerID);
             ViewBag.Players = data.Players.List(new QueryOptions<Player> { });
             ViewBag.CurrentGame = game;
+            Course c = data.Courses.Get(game.CourseID);
+            ViewBag.Weather = GetWeather(c.ZipCode);
             return View("InGameIndividual", openGames);
         }
         public IActionResult EndGameIndividual(int id)
@@ -335,6 +346,20 @@ namespace DiscGolf.Controllers
             data.GamesPlayed.Save();
             ToIndex(g.PlayerID);
             return View("Index");
+        }
+        public string GetWeather(int? zipCode)
+        {
+            string appID = "b326733a8d3844efab7222017210704";
+
+            string url = string.Format("http://api.weatherapi.com/v1/current.json?key={0}&q={1}&aqi=no", appID, zipCode);
+
+            using (WebClient client = new WebClient())
+            {
+                string json = client.DownloadString(url);
+                //dynamic test = JObject.Parse(json);
+                //string temp = (string)test["temp_f"];
+                return json;
+            }
         }
     }
 }
